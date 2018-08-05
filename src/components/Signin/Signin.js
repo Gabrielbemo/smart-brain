@@ -15,22 +15,30 @@ class Signin extends React.Component {
         this.setState({ signInPassword: event.target.value });
     }
     onSubmitSignIn = () => {
-        fetch('https://young-brook-76506.herokuapp.com/signin', {
-            method: 'post',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                email: this.state.signInEmail,
-                password: this.state.signInPassword
+        if (this.state.signInEmail.indexOf('@') < 1 || this.state.signInEmail.indexOf('.com') < 3) {
+            return alert('email é um campo obrigatório e está invalido');
+        }
+        if (this.state.signInPassword.length >= 4) {
+            console.log('vis');
+            fetch('https://young-brook-76506.herokuapp.com/signin', {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: this.state.signInEmail,
+                    password: this.state.signInPassword
+                })
             })
-        })
-            .then(response => response.json())
-            .then(user => {
-                if (user.id) {
-                    console.log(user.id);
-                    this.props.loadUser(user)
-                    this.props.onRouteChange('home');
-                }
-            })
+                .then(response => response.json())
+                .then(user => {
+                    if (user.id) {
+                        console.log(user.id);
+                        this.props.loadUser(user)
+                        this.props.onRouteChange('home');
+                    }
+                })
+        } else {
+            return alert('senha é um campo obrigatório e está invalido');
+        }
     }
     render() {
         const { onRouteChange } = this.props;

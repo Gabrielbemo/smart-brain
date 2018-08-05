@@ -20,6 +20,13 @@ class Register extends React.Component {
     }
 
     onSubmitSignIn = () => {
+        if(this.state.name.length < 4){
+            return alert('nome é um campo obrigatório, com no mínimo 4 caracters');
+        }
+        if (this.state.email.indexOf('@') < 1 || this.state.email.indexOf('.com') < 3) {
+            return alert('email é um campo obrigatório e está invalido');
+        }
+        if(this.state.password.length >= 4){
         fetch('https://young-brook-76506.herokuapp.com/register', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
@@ -36,6 +43,9 @@ class Register extends React.Component {
                     this.props.onRouteChange('home');
                 }
             })
+        }else{
+            return alert('senha é um campo obrigatório, com no mínimo 4 caracters');
+        }
     }
 
     render() {
